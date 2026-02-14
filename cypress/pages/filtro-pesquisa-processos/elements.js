@@ -1,0 +1,15 @@
+export const elements = {
+    campoInputObjeto: '#objeto',
+    campoInputProcesso: '#processo',
+    campoInputOrgao: '#orgao',
+    botaoBuscarProcesso: '.btn-pesquisa-p.second',
+    botaoBuscaAvancada: 'a.busca-av',
+    dropdownStatus: '#Status',
+    dropdownModalidade: '#Modalidade',
+    dropdownRealização: '#Realizacao',
+    dropdownJulgamento: '#julgamento',
+    campoPeriodo: '#periodo',
+    dataDoProcesso: 'section.resultado-pesquisa table tbody tr',
+    dropdownUf: '#UF',
+    dropdownMunicipios: '#municipios',
+};
