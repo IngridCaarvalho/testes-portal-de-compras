@@ -15,18 +15,23 @@ O código está organizado para separar elementos, ações e lógica de teste:
 * **E2E:** Testes clássicos em `.cy.js` que descrevem os cenários de negócio.
 
 ## Como executar os testes
-C
+
 1. Preparar o ambiente
 Certifique-se de ter o **Node.js** instalado. Na raiz do projeto, instale as dependências executando:
 
 `npm install`
 
-2. Abrir o Cypress (Interface Gráfica)
+2. Iniciar o package.json e instalar o Cypress
+
+`npm init -y`
+`npm install cypress --save-dev`
+
+3. Abrir o Cypress (Interface Gráfica)
 Para selecionar e acompanhar os testes visualmente:
 
 `npx cypress open`
 
-3. Para executar o Cypress via terminal (Terminal)
+4. Para executar o Cypress via terminal (Terminal)
 Para uma execução via terminal:
 
 `npx cypress run`
