@@ -24,45 +24,51 @@ describe("Realizando a pesquisa de processos", () => {
     });
 
     it("Ao clicar no campo de status e selecionar Em republicação, os resultados com esse status devem ser exibidos", () => {
+        filtroPesquisaProcessos.clickBotaoBuscaAvancada();
         filtroPesquisaProcessos.selecionarStatus();
         filtroPesquisaProcessos.clickBotaoBuscarProcesso();
         filtroPesquisaProcessos.validarResultadoStatusRepublicacao();
     });
 
     it("Ao clicar no campo de modalidade e selecionar Leilão eletrônico, os resultados com essa opção devem ser exibidos", () => {
+        filtroPesquisaProcessos.clickBotaoBuscaAvancada();
         filtroPesquisaProcessos.selecionarModalidade();
         filtroPesquisaProcessos.clickBotaoBuscarProcesso();
         filtroPesquisaProcessos.validarResultadoModalidadeLeilao();
     });
 
     it("Ao clicar no campo de realização e selecionar Presencial, os resultados com essa opção devem ser exibidos", () => {
+        filtroPesquisaProcessos.clickBotaoBuscaAvancada();
         filtroPesquisaProcessos.selecionarRealizacao();
         filtroPesquisaProcessos.clickBotaoBuscarProcesso();
         filtroPesquisaProcessos.validarResultadoRealizacaoPresencial();
     });
 
     it("Ao clicar no campo de julgamento e selecionar técnica, os resultados com essa opção devem ser exibidos", () => {
+        filtroPesquisaProcessos.clickBotaoBuscaAvancada();
         filtroPesquisaProcessos.selecionarJulgamento();
         filtroPesquisaProcessos.clickBotaoBuscarProcesso();
         filtroPesquisaProcessos.validarResultadoJulgamentoTecnico();
     });
 
-
     it("Ao clicar no campo de período e selecionar a data de inicio e fim, os resultados conforme o perído selecionado devem ser exibidos", () => {
         const dataInicio = '01/01/2026';
         const dataFim = '05/01/2026';
+        filtroPesquisaProcessos.clickBotaoBuscaAvancada();
         filtroPesquisaProcessos.preencherInputPeriodo(dataInicio, dataFim);
         filtroPesquisaProcessos.clickBotaoBuscarProcesso();
         filtroPesquisaProcessos.validarDataNosResultados(dataInicio, dataFim);
     });
 
     it("Ao clicar no campo de uf e selecionar o estado, os resultados com essa opção devem ser exibidos", () => {
+        filtroPesquisaProcessos.clickBotaoBuscaAvancada();
         filtroPesquisaProcessos.selecionarUf();
         filtroPesquisaProcessos.clickBotaoBuscarProcesso();
         filtroPesquisaProcessos.validarResultadoUfBA();
     });
 
     it("Ao clicar no campo de uf e selecionar o estado e o município, os resultados com essas opções devem ser exibidas", () => {
+        filtroPesquisaProcessos.clickBotaoBuscaAvancada();
         filtroPesquisaProcessos.selecionarUf();
         filtroPesquisaProcessos.selecionarMunicipio();
         filtroPesquisaProcessos.clickBotaoBuscarProcesso();
