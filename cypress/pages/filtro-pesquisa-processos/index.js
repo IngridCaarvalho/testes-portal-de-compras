@@ -14,31 +14,23 @@ class FiltroPesquisaProcesso {
     }
 
     clickBotaoBuscarProcesso() {
-        cy.get(filtroPesquisaProcesso.botaoBuscarProcesso).click();
+        cy.get(filtroPesquisaProcesso.botaoBuscarProcesso).type('{enter}');
     }
 
     clickBotaoBuscaAvancada() {
         cy.get(filtroPesquisaProcesso.botaoBuscaAvancada).click();
     }
 
-    clickDropdownModalidade(opcao) {
-        cy.get(filtroPesquisaProcesso.dropdownModalidade).select(opcao);
-    }
+    preencherInputPeriodo(diaInicio, diaFim) {
+        cy.get(filtroPesquisaProcesso.campoPeriodo).click();
 
-    clickDropdownRealizacao(opcao) {
-        cy.get(filtroPesquisaProcesso.dropdownRealizacao).select(opcao);
-    }
+        cy.get('.vfc-calendar')
+            .contains('span.vfc-span-day', new RegExp(`^${diaInicio}$`))
+            .click();
 
-    clickDropdownJulgamento(opcao) {
-        cy.get(filtroPesquisaProcesso.dropdownJulgamento).select(opcao);
-    }
-
-    preencherInputPeriodo(dataInicio, dataFim) {
-        const periodo = `${dataInicio} - ${dataFim}`
-        cy.get(filtroPesquisaProcesso.campoPeriodo)
-            .should('be.visible')
-            .invoke('val', periodo)
-            .trigger('change')
+        cy.get('.vfc-calendar')
+            .contains('span.vfc-span-day', new RegExp(`^${diaFim}$`))
+            .click();
     }
 
     validarQuantidadeResultados(valorEsperado) {
@@ -46,36 +38,32 @@ class FiltroPesquisaProcesso {
             .should('have.length', valorEsperado);
     }
 
-    clickDropdownUf(opcao) {
-        cy.get(filtroPesquisaProcesso.dropdownUf).select(opcao);
-    }
-
     clickDropdownMunicipio(opcao) {
         cy.get(filtroPesquisaProcesso.dropdownMunicipio).select(opcao);
     }
 
-    resultadoObjetoProcesso(valor) {
+    resultadoObjetoProcesso() {
         cy.get(filtroPesquisaProcesso.resultadoObjetoProcesso)
-            .should('be.visible')
-            .and('contain', valor);
+            .contains("271022-1")
+            .should("be.visible");
     }
 
     resultadoProcesso() {
         cy.get(filtroPesquisaProcesso.resultadoProcessos)
-            .contains('v32PNCP Alteração/2026')
+            .contains('271022-1')
             .should('be.visible');
     }
 
     resultadoOrgao() {
         cy.get(filtroPesquisaProcesso.resultadoOrgao)
             .should('be.visible')
-            .and('contain', 'v32PNCP Alteração/2026')
-            .and('contain', 'Matheus Manoel Berto da Silva');
+            .and('contain', '271022-1')
+            .and('contain', 'Comprador Mayco');
     }
 
     selecionarStatus() {
         cy.get(filtroPesquisaProcesso.dropdownStatus)
-            .select('Em Republicação')
+            .select('25')
     }
 
     validarResultadoStatusRepublicacao() {
@@ -86,7 +74,7 @@ class FiltroPesquisaProcesso {
 
     selecionarModalidade() {
         cy.get(filtroPesquisaProcesso.dropdownModalidade)
-            .select('Leilão Eletrônico')
+            .select('12')
     }
 
     validarResultadoModalidadeLeilao() {
@@ -97,7 +85,7 @@ class FiltroPesquisaProcesso {
 
     selecionarRealizacao() {
         cy.get(filtroPesquisaProcesso.dropdownRealizacao)
-            .select('Presencial')
+            .select('2')
     }
 
     validarResultadoRealizacaoPresencial() {
@@ -108,7 +96,7 @@ class FiltroPesquisaProcesso {
 
     selecionarJulgamento() {
         cy.get(filtroPesquisaProcesso.dropdownJulgamento)
-            .select('Técnica')
+            .select('7')
     }
 
     validarResultadoJulgamentoTecnico() {
@@ -118,29 +106,50 @@ class FiltroPesquisaProcesso {
     }
 
     validarDataNosResultados(inicio, fim) {
-        cy.get(filtroPesquisaProcesso.dataDoProcesso)
-            .should('be.visible')
-            .first()
-            .then(($el) => {
-                const texto = $el.text();
-                expect(texto).to.satisfy((t) => t.includes(inicio) || t.includes(fim));
-            });
+
+        cy.get(filtroPesquisaProcesso.dataDoProcesso, { timeout: 15000 }).should('be.visible');
+
+        const converterData = (str) => {
+
+            const textoLimpo = str.trim().split(/\s+/)[0];
+
+
+            if (!textoLimpo || !textoLimpo.includes('/')) {
+                return null;
+            }
+
+            const [dia, mes, ano] = textoLimpo.split('/');
+            return new Date(ano, mes - 1, dia);
+        };
+
+        const dataInicio = converterData(inicio);
+        const dataFim = converterData(fim);
+
+        cy.get(filtroPesquisaProcesso.dataDoProcesso).each(($el, index) => {
+            const textoOriginal = $el.text();
+            const dataProcesso = converterData(textoOriginal);
+
+
+            if (dataProcesso) {
+                expect(dataProcesso, `Item ${index}: Data ${textoOriginal} fora do intervalo`)
+                    .to.be.within(dataInicio, dataFim);
+            }
+        });
     }
 
     selecionarUf() {
         cy.get(filtroPesquisaProcesso.dropdownUf)
-            .select('BA')
+            .select('100129') 
     }
 
     validarResultadoUfBA() {
         cy.get(filtroPesquisaProcesso.resultadoBuscaAvancada)
-            .should('be.visible')
-            .and('not.contain', '0 registros')
+            .should('contain', 'Prefeitura de Lucca - BA')
     }
 
     selecionarMunicipio() {
         cy.get(filtroPesquisaProcesso.dropdownMunicipio)
-            .select('Irará')
+            .select('100129173')
     }
 
     validarResultadoMunicipio() {

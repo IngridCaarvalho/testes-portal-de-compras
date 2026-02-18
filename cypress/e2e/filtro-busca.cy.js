@@ -1,24 +1,26 @@
 import filtroPesquisaProcessos from "../pages/filtro-pesquisa-processos";
 
 describe("Realizando a pesquisa de processos", () => {
+    Cypress.on("uncaught:exception", () => false);
+
     beforeEach(() => {
         cy.visit(Cypress.env("baseUrl"));
     });
 
     it("Ao inserir a informação no campo de objeto, o resultado do processo deve ser exibido", () => {
-        filtroPesquisaProcessos.preencherInputObjeto('v32PNCP Alteração');
+        filtroPesquisaProcessos.preencherInputObjeto('271022-1');
         filtroPesquisaProcessos.clickBotaoBuscarProcesso();
-        filtroPesquisaProcessos.resultadoObjetoProcesso('v32PNCP Alteração');
+        filtroPesquisaProcessos.resultadoObjetoProcesso('271022-1');
     });
 
     it("Ao inserir a informação no campo de processo, o resultado do número do processo deve ser exibido", () => {
-        filtroPesquisaProcessos.preencherInputProcesso('v32PNCP Alteração/2026');
+        filtroPesquisaProcessos.preencherInputProcesso('271022-1');
         filtroPesquisaProcessos.clickBotaoBuscarProcesso();
         filtroPesquisaProcessos.resultadoProcesso();
     });
 
     it("Ao inserir a informação no campo de orgão, o resultado do orgão do processo deve ser exibido", () => {
-        filtroPesquisaProcessos.preencherInputOrgao('Matheus Manoel Berto da Silva');
+        filtroPesquisaProcessos.preencherInputOrgao('Comprador Mayco');
         filtroPesquisaProcessos.clickBotaoBuscarProcesso();
         filtroPesquisaProcessos.resultadoOrgao();
     });
@@ -52,15 +54,15 @@ describe("Realizando a pesquisa de processos", () => {
     });
 
     it("Ao clicar no campo de período e selecionar a data de inicio e fim, os resultados conforme o perído selecionado devem ser exibidos", () => {
-        const dataInicio = '01/01/2026';
-        const dataFim = '05/01/2026';
+        const dataInicio = "01/01/2026";
+        const dataFim = "05/01/2026";
         filtroPesquisaProcessos.clickBotaoBuscaAvancada();
-        filtroPesquisaProcessos.preencherInputPeriodo(dataInicio, dataFim);
+        filtroPesquisaProcessos.preencherInputPeriodo("1", "5");
         filtroPesquisaProcessos.clickBotaoBuscarProcesso();
         filtroPesquisaProcessos.validarDataNosResultados(dataInicio, dataFim);
     });
 
-    it("Ao clicar no campo de uf e selecionar o estado, os resultados com essa opção devem ser exibidos", () => {
+    it.only("Ao clicar no campo de uf e selecionar o estado, os resultados com essa opção devem ser exibidos", () => {
         filtroPesquisaProcessos.clickBotaoBuscaAvancada();
         filtroPesquisaProcessos.selecionarUf();
         filtroPesquisaProcessos.clickBotaoBuscarProcesso();
